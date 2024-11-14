@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "bfm-fi-company-client"
+version = "0.1.0"
+description = ""
+authors = ["Maicon de Menezes <maicon.menezes@celero.com.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+grpcio = "^1.67.1"
+grpcio-tools = "^1.67.1"
+requests = "^2.32.3"
+python-keycloak = "^4.7.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
