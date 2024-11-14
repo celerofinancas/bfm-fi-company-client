@@ -1,12 +1,21 @@
 import grpc
 from company_service_pb2_grpc import CompanyServiceStub
 from company_service_pb2 import CreateCompanyRequest, DeactivateCompanyRequest, ReactivateCompanyRequest
-from keycloak import KeycloakOpenID
+from celero_flask_idp.core.helpers.functions.jwt import jwtoken
+from celero_flask_idp.core.exceptions import IDPTransgressionError
 
-def get_keycloak_token():
-    pass
+def is_token_valid(token):
+    try:
+        jwt = jwtoken()
+        jwt.set_token_data(token)
+        jwt.validate()
+        return True
+    except IDPTransgressionError:
+        return False
 
-def create_company(stub, company_id, company_name, trade_name, registration_number):
+def create_company(stub, company_id, company_name, trade_name, registration_number, token):
+    if not is_token_valid(token):
+        raise IDPTransgressionError("Invalid or expired token")
     request = CreateCompanyRequest(
         company_id=company_id,
         company_name=company_name,
@@ -16,7 +25,10 @@ def create_company(stub, company_id, company_name, trade_name, registration_numb
     response = stub.CreateCompany(request)
     return response
 
-def deactivate_company(stub, company_id, reason):
+def deactivate_company(stub, company_id, reason, token):
+    if not is_token_valid(token):
+        raise IDPTransgressionError("Invalid or expired token")
+
     request = DeactivateCompanyRequest(
         company_id=company_id,
         reason=reason
@@ -24,7 +36,10 @@ def deactivate_company(stub, company_id, reason):
     response = stub.DeactivateCompany(request)
     return response
 
-def reactivate_company(stub, company_id, reason):
+def reactivate_company(stub, company_id, reason, token):
+    if not is_token_valid(token):
+        raise IDPTransgressionError("Invalid or expired token")
+
     request = ReactivateCompanyRequest(
         company_id=company_id,
         reason=reason
@@ -33,7 +48,7 @@ def reactivate_company(stub, company_id, reason):
     return response
 
 def run():
-    token = get_keycloak_token()
+    token = jwtoken()  # Obtém o token usando a função jwtoken()
     credentials = grpc.metadata_call_credentials(
         lambda context, callback: callback([("authorization", f"Bearer {token}")], None)
     )
