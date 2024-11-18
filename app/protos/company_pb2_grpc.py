@@ -3,9 +3,9 @@
 import grpc
 import warnings
 
-from proto import company_service_pb2 as proto_dot_company__service__pb2
+from app.protos import company_pb2 as app_dot_protos_dot_company__pb2
 
-GRPC_GENERATED_VERSION = '1.67.1'
+GRPC_GENERATED_VERSION = '1.68.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,15 +18,15 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in proto/company_service_pb2_grpc.py depends on'
+        + f' but the generated code in app/protos/company_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
 
 
-class CompanyServiceStub(object):
-    """CompanyService service definition
+class CompanyStub(object):
+    """Company service definition
     """
 
     def __init__(self, channel):
@@ -35,25 +35,25 @@ class CompanyServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.CreateCompany = channel.unary_unary(
-                '/companyservice.CompanyService/CreateCompany',
-                request_serializer=proto_dot_company__service__pb2.CreateCompanyRequest.SerializeToString,
-                response_deserializer=proto_dot_company__service__pb2.CreateCompanyResponse.FromString,
+        self.CreateCompany = channel.unary_stream(
+                '/company.Company/CreateCompany',
+                request_serializer=app_dot_protos_dot_company__pb2.CreateCompanyRequest.SerializeToString,
+                response_deserializer=app_dot_protos_dot_company__pb2.CreateCompanyResponse.FromString,
                 _registered_method=True)
         self.DeactivateCompany = channel.unary_unary(
-                '/companyservice.CompanyService/DeactivateCompany',
-                request_serializer=proto_dot_company__service__pb2.DeactivateCompanyRequest.SerializeToString,
-                response_deserializer=proto_dot_company__service__pb2.DeactivateCompanyResponse.FromString,
+                '/company.Company/DeactivateCompany',
+                request_serializer=app_dot_protos_dot_company__pb2.DeactivateCompanyRequest.SerializeToString,
+                response_deserializer=app_dot_protos_dot_company__pb2.DeactivateCompanyResponse.FromString,
                 _registered_method=True)
-        self.ReactivateCompany = channel.unary_unary(
-                '/companyservice.CompanyService/ReactivateCompany',
-                request_serializer=proto_dot_company__service__pb2.ReactivateCompanyRequest.SerializeToString,
-                response_deserializer=proto_dot_company__service__pb2.ReactivateCompanyResponse.FromString,
+        self.ReactivateCompany = channel.unary_stream(
+                '/company.Company/ReactivateCompany',
+                request_serializer=app_dot_protos_dot_company__pb2.ReactivateCompanyRequest.SerializeToString,
+                response_deserializer=app_dot_protos_dot_company__pb2.ReactivateCompanyResponse.FromString,
                 _registered_method=True)
 
 
-class CompanyServiceServicer(object):
-    """CompanyService service definition
+class CompanyServicer(object):
+    """Company service definition
     """
 
     def CreateCompany(self, request, context):
@@ -78,33 +78,33 @@ class CompanyServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_CompanyServiceServicer_to_server(servicer, server):
+def add_CompanyServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'CreateCompany': grpc.unary_unary_rpc_method_handler(
+            'CreateCompany': grpc.unary_stream_rpc_method_handler(
                     servicer.CreateCompany,
-                    request_deserializer=proto_dot_company__service__pb2.CreateCompanyRequest.FromString,
-                    response_serializer=proto_dot_company__service__pb2.CreateCompanyResponse.SerializeToString,
+                    request_deserializer=app_dot_protos_dot_company__pb2.CreateCompanyRequest.FromString,
+                    response_serializer=app_dot_protos_dot_company__pb2.CreateCompanyResponse.SerializeToString,
             ),
             'DeactivateCompany': grpc.unary_unary_rpc_method_handler(
                     servicer.DeactivateCompany,
-                    request_deserializer=proto_dot_company__service__pb2.DeactivateCompanyRequest.FromString,
-                    response_serializer=proto_dot_company__service__pb2.DeactivateCompanyResponse.SerializeToString,
+                    request_deserializer=app_dot_protos_dot_company__pb2.DeactivateCompanyRequest.FromString,
+                    response_serializer=app_dot_protos_dot_company__pb2.DeactivateCompanyResponse.SerializeToString,
             ),
-            'ReactivateCompany': grpc.unary_unary_rpc_method_handler(
+            'ReactivateCompany': grpc.unary_stream_rpc_method_handler(
                     servicer.ReactivateCompany,
-                    request_deserializer=proto_dot_company__service__pb2.ReactivateCompanyRequest.FromString,
-                    response_serializer=proto_dot_company__service__pb2.ReactivateCompanyResponse.SerializeToString,
+                    request_deserializer=app_dot_protos_dot_company__pb2.ReactivateCompanyRequest.FromString,
+                    response_serializer=app_dot_protos_dot_company__pb2.ReactivateCompanyResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'companyservice.CompanyService', rpc_method_handlers)
+            'company.Company', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('companyservice.CompanyService', rpc_method_handlers)
+    server.add_registered_method_handlers('company.Company', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class CompanyService(object):
-    """CompanyService service definition
+class Company(object):
+    """Company service definition
     """
 
     @staticmethod
@@ -118,12 +118,12 @@ class CompanyService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(
+        return grpc.experimental.unary_stream(
             request,
             target,
-            '/companyservice.CompanyService/CreateCompany',
-            proto_dot_company__service__pb2.CreateCompanyRequest.SerializeToString,
-            proto_dot_company__service__pb2.CreateCompanyResponse.FromString,
+            '/company.Company/CreateCompany',
+            app_dot_protos_dot_company__pb2.CreateCompanyRequest.SerializeToString,
+            app_dot_protos_dot_company__pb2.CreateCompanyResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -148,9 +148,9 @@ class CompanyService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/companyservice.CompanyService/DeactivateCompany',
-            proto_dot_company__service__pb2.DeactivateCompanyRequest.SerializeToString,
-            proto_dot_company__service__pb2.DeactivateCompanyResponse.FromString,
+            '/company.Company/DeactivateCompany',
+            app_dot_protos_dot_company__pb2.DeactivateCompanyRequest.SerializeToString,
+            app_dot_protos_dot_company__pb2.DeactivateCompanyResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -172,12 +172,12 @@ class CompanyService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(
+        return grpc.experimental.unary_stream(
             request,
             target,
-            '/companyservice.CompanyService/ReactivateCompany',
-            proto_dot_company__service__pb2.ReactivateCompanyRequest.SerializeToString,
-            proto_dot_company__service__pb2.ReactivateCompanyResponse.FromString,
+            '/company.Company/ReactivateCompany',
+            app_dot_protos_dot_company__pb2.ReactivateCompanyRequest.SerializeToString,
+            app_dot_protos_dot_company__pb2.ReactivateCompanyResponse.FromString,
             options,
             channel_credentials,
             insecure,
