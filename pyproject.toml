@@ -10,16 +10,7 @@ python = "^3.13"
 grpcio = "^1.67.1"
 grpcio-tools = "^1.67.1"
 requests = "^2.32.3"
-python-keycloak = "^4.7.1"
-celero-conf-loader = { version = "0.2.0", source = "google-artifact-registry" }
-celero_flask_idp = { version = "0.7.0", source = "google-artifact-registry" }
-celero-idp = { version = "0.2.0", source = "google-artifact-registry" }
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[[tool.poetry.source]]
-name = "google-artifact-registry"
-url = "https://us-east1-python.pkg.dev/celero-main/celero-finance/simple/"
-priority = "explicit"
