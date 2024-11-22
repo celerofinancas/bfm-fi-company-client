@@ -1,9 +1,9 @@
 # External imports
 import grpc
 
-# Internal imports
-from protos.company.company_pb2_grpc import CompanyServiceStub
-from protos.company.company_pb2 import (
+# Celero imports
+from celero_bfm_fi_proto.company.company_pb2_grpc import CompanyServiceStub
+from celero_bfm_fi_proto.company.company_pb2 import (
     CreateCompanyRequest,
     CreateCompanyResponse,
     DeactivateCompanyRequest,
