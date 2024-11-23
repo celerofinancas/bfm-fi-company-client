@@ -18,9 +18,9 @@ class CompanyClient:
 
     :param address: The address of the gRPC server.
     """
-    def __init__(self, address: str):
+    def __init__(self, address: str, ssl_cert: str):
         self.address = address
-        channel_credentials = grpc.ssl_channel_credentials()
+        channel_credentials = grpc.ssl_channel_credentials(ssl_cert)
         self.channel = grpc.secure_channel(
             self.address,
             channel_credentials=channel_credentials,
@@ -60,7 +60,7 @@ class CompanyClient:
         self,
         token: str,
         company_id: str,
-        reason: str
+        reason: str,
     ) -> DeactivateCompanyResponse:
         """Deactivate a company calling the DeactivateCompany RPC.
 
@@ -71,7 +71,7 @@ class CompanyClient:
         """
         request = DeactivateCompanyRequest(
             company_id=company_id,
-            reason=reason
+            reason=reason,
         )
         response = self.stub.DeactivateCompany(
             request,
@@ -94,7 +94,7 @@ class CompanyClient:
         """
         request = ReactivateCompanyRequest(
             company_id=company_id,
-            reason=reason
+            reason=reason,
         )
         response = self.stub.ReactivateCompany(
             request,
