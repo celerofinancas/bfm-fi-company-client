@@ -4,15 +4,21 @@ version = "0.1.0"
 description = ""
 authors = ["Maicon de Menezes <maicon.menezes@celero.com.br>"]
 readme = "README.md"
+license = "MIT"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.13"
 grpcio = "^1.67.1"
 grpcio-tools = "^1.67.1"
 requests = "^2.32.3"
-python-keycloak = "^4.7.1"
-
+celero-bfm-fi-proto = { version = "0.1.0", source = "artifact-registry" }
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "artifact-registry"
+url = "https://us-east1-python.pkg.dev/celero-main/celero-finance/simple/"
+priority = "explicit"
